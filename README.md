@@ -1,4 +1,6 @@
 ----- Welcome Everyone ----
+
+
 The objective of this project is to leverage customer financial and behavioral data to predict a customer’s Credit_Mix category using machine learning techniques. By developing and evaluating multiple classification models, the project aims to identify patterns that influence credit health and provide actionable insights to support informed credit decision-making, risk assessment, and long-term financial well-being.
 
 # Project Summary:
