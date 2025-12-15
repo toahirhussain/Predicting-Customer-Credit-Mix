@@ -6,39 +6,39 @@ This project focuses on predicting a customer’s Credit Mix category using fina
 
 The project implements an end-to-end machine learning pipeline, covering data preprocessing, model development, hyperparameter tuning, evaluation, and interpretation. Emphasis is placed on handling real-world data challenges such as class imbalance, noisy features, and model explainability.
 
-🎯 Objectives
+## 🎯 Objectives
 
-Clean and preprocess raw customer financial and behavioral data
+  - Clean and preprocess raw customer financial and behavioral data
+  
+  - Identify patterns influencing a customer’s credit mix
+  
+  - Train and evaluate multiple classification models
+  
+  - Compare models using appropriate metrics for imbalanced multiclass data
+  
+  - Provide actionable insights to support credit risk decision-making
 
-Identify patterns influencing a customer’s credit mix
+## 🗂️ Dataset Description
 
-Train and evaluate multiple classification models
-
-Compare models using appropriate metrics for imbalanced multiclass data
-
-Provide actionable insights to support credit risk decision-making
-
-🗂️ Dataset Description
-
-Target Variable
-
-Credit_Mix – Categorical credit mix classification
-
-Feature Types
-
-Financial attributes (income, balances, credit usage, etc.)
-
-Behavioral indicators
-
-Categorical and numerical variables
-
-Data Challenges
-
-Numeric columns stored as strings
-
-Missing values in key financial features
-
-Imbalanced class distribution across credit categories
+- Target Variable
+  
+  - Credit_Mix – Categorical credit mix classification
+  
+-Feature Types
+  
+  - Financial attributes (income, balances, credit usage, etc.)
+  
+  - Behavioral indicators
+  
+  - Categorical and numerical variables
+  
+- Data Challenges
+  
+  - Numeric columns stored as strings
+  
+  - Missing values in key financial features
+  
+  - Imbalanced class distribution across credit categories
 
 🔧 Project Workflow
 1️⃣ Data Preprocessing
