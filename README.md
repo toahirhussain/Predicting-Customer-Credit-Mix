@@ -105,6 +105,8 @@ Models were evaluated on a hold-out test set using:
 📍 Purpose: Ensure fair evaluation across all credit categories, not just majority classes
 
 ## 📊 Results Summary
+<img width="807" height="164" alt="{90A99249-9D46-4DB8-B134-EB981A41F786}" src="https://github.com/user-attachments/assets/3f995669-efce-4557-95d2-ee408bb98f6b" />
+
 
   - Logistic Regression provided a strong and interpretable baseline but struggled with complex patterns.
   
