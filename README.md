@@ -1,6 +1,6 @@
 # Credit Mix Prediction Using Machine Learning
 
-📌 Project Overview
+## 📌 Project Overview
 
 This project focuses on predicting a customer’s Credit Mix category using financial and behavioral data through machine learning techniques. Accurate classification of credit mix is crucial for assessing credit risk, supporting informed lending decisions, and promoting long-term financial well-being.
 
