@@ -2,9 +2,9 @@
 
 ## 📌 Project Overview
 
-This project focuses on predicting a customer’s Credit Mix category using financial and behavioral data through machine learning techniques. Accurate classification of credit mix is crucial for assessing credit risk, supporting informed lending decisions, and promoting long-term financial well-being.
+> This project focuses on predicting a customer’s Credit Mix category using financial and behavioral data through machine learning techniques. Accurate classification of credit mix is crucial for assessing credit risk, supporting informed lending decisions, and promoting long-term financial well-being.
 
-The project implements an end-to-end machine learning pipeline, covering data preprocessing, model development, hyperparameter tuning, evaluation, and interpretation. Emphasis is placed on handling real-world data challenges such as class imbalance, noisy features, and model explainability.
+> The project implements an end-to-end machine learning pipeline, covering data preprocessing, model development, hyperparameter tuning, evaluation, and interpretation. Emphasis is placed on handling real-world data challenges such as class imbalance, noisy features, and model explainability.
 
 ## 🎯 Objectives
 
@@ -137,4 +137,14 @@ Models were evaluated on a hold-out test set using:
   - Periodically retrain the model to reflect changes in customer behavior.
   
   - Extend the solution by deploying it as a REST API or integrating outputs into a Power BI dashboard for stakeholders.
+
+## License
+
+License: [MIT]
+
+## Author
+
+Md Toahir Hussain
+
+LinkedIn: [https://www.linkedin.com/in/md-toahir-hussain-79009a14b/]
 
