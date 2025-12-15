@@ -24,7 +24,7 @@ The project implements an end-to-end machine learning pipeline, covering data pr
   
   - Credit_Mix – Categorical credit mix classification
   
--Feature Types
+- Feature Types
   
   - Financial attributes (income, balances, credit usage, etc.)
   
