@@ -126,7 +126,7 @@ Models were evaluated on a hold-out test set using:
   
   - Model explainability (feature importance, SHAP) is critical for translating ML outputs into business insights.
 
-##💡 Recommendations
+## 💡 Recommendations
 
   - Use the trained model as a decision-support tool, not a fully automated system.
   
