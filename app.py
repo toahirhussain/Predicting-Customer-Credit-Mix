@@ -294,6 +294,54 @@ st.write("")
 
 tabs = st.tabs(["🔮 Predict", "📊 Explain (SHAP)", "📄 About / How to Use"])
 
+
+ def _pretty_feature_name(raw_name: str) -> str:
+            # If you already have "cat__" / "num__" prefixes, clean them
+            name = str(raw_name)
+            name = name.replace("num__", "").replace("cat__", "")
+            return DISPLAY_NAMES.get(name, name.replace("_", " "))
+    
+def build_shap_summary(contrib_df: pd.DataFrame, pred_label: str, top_k_pos=3, top_k_neg=2) -> str:
+            """
+            contrib_df columns: Feature, SHAP_Contribution
+            Positive => pushes toward predicted class; Negative => pushes away
+            """
+            df = contrib_df.copy()
+            df["Feature"] = df["Feature"].apply(_pretty_feature_name)
+        
+            pos = df[df["SHAP_Contribution"] > 0].sort_values("SHAP_Contribution", ascending=False).head(top_k_pos)
+            neg = df[df["SHAP_Contribution"] < 0].sort_values("SHAP_Contribution", ascending=True).head(top_k_neg)
+        
+            pos_feats = pos["Feature"].tolist()
+            neg_feats = neg["Feature"].tolist()
+        
+            pred_label_clean = str(pred_label).strip().title()
+            if pred_label_clean not in {"Good", "Standard", "Bad"}:
+                pred_label_clean = "this result"
+        
+            # Short “what to do” suggestion per class (optional)
+            advice = {
+                "Good": "Keep payments consistent and avoid unnecessary new credit.",
+                "Standard": "Pay on time, reduce utilization, and limit new credit inquiries.",
+                "Bad": "Focus on on-time payments, lowering outstanding balances, and avoiding new credit until stable.",
+            }.get(pred_label_clean, "")
+        
+def bullets(items):
+            return "\n".join([f"- {x}" for x in items]) if items else "- (No strong drivers found)"
+        
+            text = f"""### 📝 Plain English Summary
+            
+            The model predicted **{pred_label_clean}** mainly because:
+            {bullets(pos_feats)}
+            
+            However, the prediction was weakened by:
+            {bullets(neg_feats)}
+            """
+            if advice:
+                text += f"\n**Suggested action:** {advice}\n"
+        
+            return text
+
 # =========================================================
 # TAB 1: Predict
 # =========================================================
@@ -517,53 +565,10 @@ with tabs[1]:
         )
 
         st.dataframe(contrib, use_container_width=True, hide_index=True)
+        pred_label = label_map.get(int(pred_enc), str(pred_enc))
 
-        def _pretty_feature_name(raw_name: str) -> str:
-            # If you already have "cat__" / "num__" prefixes, clean them
-            name = str(raw_name)
-            name = name.replace("num__", "").replace("cat__", "")
-            return DISPLAY_NAMES.get(name, name.replace("_", " "))
-    
-        def build_shap_summary(contrib_df: pd.DataFrame, pred_label: str, top_k_pos=3, top_k_neg=2) -> str:
-            """
-            contrib_df columns: Feature, SHAP_Contribution
-            Positive => pushes toward predicted class; Negative => pushes away
-            """
-            df = contrib_df.copy()
-            df["Feature"] = df["Feature"].apply(_pretty_feature_name)
-        
-            pos = df[df["SHAP_Contribution"] > 0].sort_values("SHAP_Contribution", ascending=False).head(top_k_pos)
-            neg = df[df["SHAP_Contribution"] < 0].sort_values("SHAP_Contribution", ascending=True).head(top_k_neg)
-        
-            pos_feats = pos["Feature"].tolist()
-            neg_feats = neg["Feature"].tolist()
-        
-            pred_label_clean = str(pred_label).strip().title()
-            if pred_label_clean not in {"Good", "Standard", "Bad"}:
-                pred_label_clean = "this result"
-        
-            # Short “what to do” suggestion per class (optional)
-            advice = {
-                "Good": "Keep payments consistent and avoid unnecessary new credit.",
-                "Standard": "Pay on time, reduce utilization, and limit new credit inquiries.",
-                "Bad": "Focus on on-time payments, lowering outstanding balances, and avoiding new credit until stable.",
-            }.get(pred_label_clean, "")
-        
-        def bullets(items):
-            return "\n".join([f"- {x}" for x in items]) if items else "- (No strong drivers found)"
-        
-            text = f"""### 📝 Plain English Summary
-            
-            The model predicted **{pred_label_clean}** mainly because:
-            {bullets(pos_feats)}
-            
-            However, the prediction was weakened by:
-            {bullets(neg_feats)}
-            """
-            if advice:
-                text += f"\n**Suggested action:** {advice}\n"
-        
-            return text
+        st.write("")
+        st.markdown(build_shap_summary(contrib, pred_label))
     except Exception as e:
         st.error(f"SHAP explanation failed: {e}")
     st.markdown("</div>", unsafe_allow_html=True)
