@@ -24,6 +24,9 @@ DISPLAY_NAMES = {
     "Occupation": "Occupation",
 }
 
+CATEGORICAL_OPTIONS = {
+    "Payment_of_Min_Amount": ["Yes", "No"],
+}
 
 # ----------------------------
 # Page + styling
@@ -261,13 +264,20 @@ with left:
 
         for i, col in enumerate(top_cat_cols):
             target_col = cat_cols_1 if i % 2 == 0 else cat_cols_2
+            label = DISPLAY_NAMES.get(col, col)
             with target_col:
-                label = DISPLAY_NAMES.get(col, col)
-                categorical_inputs[col] = st.text_input(
-                    label=label,
-                    value=str(defaults[col]),
-                    placeholder="Type a value…",
-                )
+                if col in CATEGORICAL_OPTIONS:
+                    categorical_inputs[col] = st.selectbox(
+                        label=label,
+                        options=CATEGORICAL_OPTIONS[col],
+                        index=0,
+                    )
+                else:
+                    categorical_inputs[col] = st.text_input(
+                        label=label,
+                        value=str(defaults[col]),
+                        placeholder="Type a value…",
+                    )
 
         st.write("")
         submitted = st.form_submit_button("🔮 Predict Credit Mix", use_container_width=True)
