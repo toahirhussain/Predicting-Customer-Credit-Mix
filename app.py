@@ -520,10 +520,10 @@ with tabs[1]:
         st.dataframe(contrib, use_container_width=True, hide_index=True)
 
     def _pretty_feature_name(raw_name: str) -> str:
-    # If you already have "cat__" / "num__" prefixes, clean them
-    name = str(raw_name)
-    name = name.replace("num__", "").replace("cat__", "")
-    return DISPLAY_NAMES.get(name, name.replace("_", " "))
+        # If you already have "cat__" / "num__" prefixes, clean them
+        name = str(raw_name)
+        name = name.replace("num__", "").replace("cat__", "")
+        return DISPLAY_NAMES.get(name, name.replace("_", " "))
 
     def build_shap_summary(contrib_df: pd.DataFrame, pred_label: str, top_k_pos=3, top_k_neg=2) -> str:
         """
@@ -550,19 +550,19 @@ with tabs[1]:
             "Bad": "Focus on on-time payments, lowering outstanding balances, and avoiding new credit until stable.",
         }.get(pred_label_clean, "")
     
-        def bullets(items):
+    def bullets(items):
             return "\n".join([f"- {x}" for x in items]) if items else "- (No strong drivers found)"
     
         text = f"""### 📝 Plain English Summary
-    
-    The model predicted **{pred_label_clean}** mainly because:
-    {bullets(pos_feats)}
-    
-    However, the prediction was weakened by:
-    {bullets(neg_feats)}
-    """
-        if advice:
-            text += f"\n**Suggested action:** {advice}\n"
+        
+        The model predicted **{pred_label_clean}** mainly because:
+        {bullets(pos_feats)}
+        
+        However, the prediction was weakened by:
+        {bullets(neg_feats)}
+        """
+            if advice:
+                text += f"\n**Suggested action:** {advice}\n"
     
         return text
     
