@@ -20,17 +20,9 @@ DISPLAY_NAMES = {
     "Total_EMI_per_month": "Total EMI per Month",
     "Num_Credit_Inquiries": "Number of Credit Inquiries",
     "Annual_Income": "Annual Income"
-}
-
-DISPLAY_NAMES.update({
-    "Outstanding_Debt": "Outstanding Debt",
-    "Changed_Credit_Limit": "Change in Credit Limit",
-    "Total_EMI_per_month": "Total EMI per Month",
-    "Annual_Income": "Annual Income",
     "Payment_of_Min_Amount": "Payment of Minimum Amount",
     "Occupation": "Occupation",
-    "Interest_Rate": "Interest Rate (%)",  # optional: nicer display
-})
+}
 
 
 # ----------------------------
