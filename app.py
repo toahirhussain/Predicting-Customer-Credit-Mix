@@ -234,9 +234,9 @@ with left:
         
         for i, col in enumerate(top_num_cols):
             target_col = num_cols_1 if i % 2 == 0 else num_cols_2
+            label = DISPLAY_NAMES.get(col, col)
             with target_col:
                 if col in INT_COLS:
-                    label = DISPLAY_NAMES.get(col, col)
                     numeric_inputs[col] = st.number_input(
                         label=label,
                         min_value=0,
@@ -342,7 +342,7 @@ with right:
 
     st.write("")
     st.markdown("---")
-    st.caption("Model: Top-15 feature pipeline (saved via joblib).")
+    st.caption("Devoloped by Md Toahir Hussain")
     st.markdown("</div>", unsafe_allow_html=True)
 
 # ----------------------------
