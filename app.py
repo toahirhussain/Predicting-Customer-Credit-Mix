@@ -436,6 +436,7 @@ with tabs[0]:
 # TAB 2: Explain (SHAP)
 # =========================================================
 with tabs[1]:
+    st.markdown('<div class="card">', unsafe_allow_html=True)
     st.info("""
     ### 🧠 How to read this explanation
     
@@ -449,7 +450,6 @@ with tabs[1]:
     
     This is a **local explanation** for this specific customer, not a global feature importance ranking.
     """)
-    st.markdown('<div class="card">', unsafe_allow_html=True)
     st.subheader("📊 Explain prediction (SHAP)")
 
     if not SHAP_AVAILABLE:
