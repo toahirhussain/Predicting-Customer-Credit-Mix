@@ -20,7 +20,7 @@ DISPLAY_NAMES = {
     "Total_EMI_per_month": "Total EMI per Month",
     "Num_Credit_Inquiries": "Number of Credit Inquiries",
     "Annual_Income": "Annual Income",
-    "Payment_of_Min_Amount": "Payment of Minimum Amount",
+    "Payment_of_Min_Amount": "Minimum Amount Paid (Yes/No)",
     "Occupation": "Occupation",
 }
 
