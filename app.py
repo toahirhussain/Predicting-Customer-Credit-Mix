@@ -291,7 +291,7 @@ st.markdown(
 
 st.write("")
 
-tabs = st.tabs(["🔮 Predict", "📊 Explain (SHAP)", "📄 About / How to Use", "About Dataset"])
+tabs = st.tabs(["🔮 Predict", "📊 Explain (SHAP)", "📄 About / How to Use", "🗂️ About Dataset"])
 
 
 def _pretty_feature_name(raw_name: str) -> str:
@@ -601,10 +601,135 @@ with tabs[2]:
 
     st.markdown("</div>", unsafe_allow_html=True)
 
+# TAB 4: About Dataset
+# =========================================================
 with tabs[3]:
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("About Dataset")
+    st.subheader("🗂️ About the dataset")
 
+    # ---------- Config (edit these if you want) ----------
+    DATASET_SAMPLE_PATH = os.path.join("data", "sample.csv")  # recommended: include a small sample file
+    TARGET_COL = "Credit_Mix"  # change if your target column name differs
+    PREVIEW_ROWS = 10
+
+    # Columns to show in preview (curated, recruiter-friendly)
+    preview_cols_preferred = [
+        "Age",
+        "Annual_Income",
+        "Outstanding_Debt",
+        "Interest_Rate",
+        "Num_of_Delayed_Payment",
+        "Delay_from_due_date",
+        "Num_Credit_Inquiries",
+        "Credit_History_Age",
+        "Payment_of_Min_Amount",
+        "Occupation",
+        TARGET_COL,
+    ]
+
+    # Feature grouping (for narrative + senior feel)
+    feature_groups = {
+        "Income & Debt": ["Annual_Income", "Outstanding_Debt", "Total_EMI_per_month", "Interest_Rate"],
+        "Credit Behavior": ["Num_of_Delayed_Payment", "Delay_from_due_date", "Num_Credit_Inquiries", "Payment_of_Min_Amount"],
+        "Accounts & Loans": ["Num_of_Loan", "Num_Credit_Card", "Num_Bank_Accounts", "Changed_Credit_Limit"],
+        "Customer Profile": ["Age", "Occupation", "Credit_History_Age"],
+    }
+
+    # ---------- Narrative ----------
+    st.write(
+        "This project uses customer financial and credit-behavior attributes to predict a **Credit Mix** category "
+        "(**Bad / Standard / Good**). The Streamlit app is designed to be understandable for non-technical users, "
+        "while still demonstrating an end-to-end ML workflow (pipeline, rules layer, and explainability)."
+    )
+
+    st.markdown("---")
+
+    # ---------- What the model uses (always available via schema) ----------
+    st.write("### What the model uses in this app")
+    colA, colB = st.columns(2)
+
+    with colA:
+        st.markdown("**Top-15 features used in the final model**")
+        if isinstance(top15, list) and len(top15) > 0:
+            st.write(", ".join([DISPLAY_NAMES.get(c, c) for c in top15]))
+        else:
+            st.info("Top-15 feature list not found in schema.")
+
+    with colB:
+        st.markdown("**Feature types**")
+        st.write(f"- Numeric: {len(top_num_cols)}")
+        st.write(f"- Categorical: {len(top_cat_cols)}")
+        st.write(f"- Total used: {len(top15) if isinstance(top15, list) else 0}")
+
+    st.markdown("---")
+
+    # ---------- Feature groups (clean and portfolio-friendly) ----------
+    st.write("### Feature groups (business meaning)")
+    for group, cols in feature_groups.items():
+        available = [c for c in cols if c in DISPLAY_NAMES]  # only show ones you mapped
+        if available:
+            pretty = ", ".join(DISPLAY_NAMES.get(c, c) for c in available)
+            st.markdown(f"- **{group}:** {pretty}")
+
+    st.markdown("---")
+
+    # ---------- Optional dataset preview ----------
+    st.write("### Data preview (sample)")
+    st.caption(
+        "For portfolio safety, it’s best to include only a small anonymized sample (10–200 rows) instead of the full dataset."
+    )
+
+    if os.path.exists(DATASET_SAMPLE_PATH):
+        try:
+            df_sample = pd.read_csv(DATASET_SAMPLE_PATH)
+
+            # If target col doesn’t exist in the sample, that's okay
+            existing_cols = [c for c in preview_cols_preferred if c in df_sample.columns]
+            if len(existing_cols) < 5:
+                # fallback: use top15 + target if available
+                fallback_cols = [c for c in top15 if c in df_sample.columns]
+                if TARGET_COL in df_sample.columns and TARGET_COL not in fallback_cols:
+                    fallback_cols.append(TARGET_COL)
+                existing_cols = fallback_cols[:10]
+
+            st.dataframe(df_sample[existing_cols].head(PREVIEW_ROWS), use_container_width=True, hide_index=True)
+
+            with st.expander("Quick dataset health checks"):
+                c1, c2, c3 = st.columns(3)
+                with c1:
+                    st.metric("Rows (sample)", len(df_sample))
+                with c2:
+                    st.metric("Columns", df_sample.shape[1])
+                with c3:
+                    st.metric("Missing cells", int(df_sample.isna().sum().sum()))
+
+                st.write("**Missing values by column (top 12)**")
+                miss = df_sample.isna().mean().sort_values(ascending=False).head(12)
+                miss_df = pd.DataFrame({"Column": miss.index, "Missing %": (miss.values * 100).round(2)})
+                st.dataframe(miss_df, use_container_width=True, hide_index=True)
+
+        except Exception as e:
+            st.warning(f"Could not read sample dataset from `{DATASET_SAMPLE_PATH}`. Error: {e}")
+            st.info("Tip: Add a small sample file at `data/sample.csv` (anonymized).")
+    else:
+        st.info(
+            f"No sample dataset found at `{DATASET_SAMPLE_PATH}`.\n\n"
+            "✅ Recommended: add a small anonymized sample CSV (10–200 rows) so recruiters can preview the data.\n"
+            "If you don’t want to include data, this tab still explains the feature groups and model inputs."
+        )
+
+    st.markdown("---")
+
+    # ---------- Practical notes (strong portfolio vibe) ----------
+    st.write("### Notes on data handling (what you did right)")
+    st.write(
+        "- Inputs are validated and cast into correct numeric/categorical types.\n"
+        "- The model is deployed as a **single pipeline** (preprocessing + estimator), reducing feature mismatch risk.\n"
+        "- A lightweight **rules layer** is applied before the model output for enterprise-style decision support.\n"
+        "- SHAP explainability provides a local explanation for individual predictions."
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
 # ----------------------------
 # Footer
 # ----------------------------
