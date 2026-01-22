@@ -472,20 +472,37 @@ with tabs[1]:
         X_bg_trans = pre.transform(shap_bg)
 
         explainer = shap.TreeExplainer(est, X_bg_trans)
+
         shap_values = explainer.shap_values(X_new_trans)
 
-        # multiclass: shap_values is list-like [class0, class1, class2]
-        # We'll pick the predicted class
+        # Predicted encoded class (0/1/2)
         pred_enc = int(model.predict(X_new)[0])
 
+        # Map predicted class to SHAP class index safely
+        if hasattr(est, "classes_") and est.classes_ is not None:
+            classes = list(est.classes_)
+            class_idx = classes.index(pred_enc) if pred_enc in classes else 0
+        else:
+            class_idx = pred_enc  # fallback
+
         st.caption("Top contributing features for the predicted class")
-        sv = shap_values[pred_enc][0]  # single row
+
+        # Extract SHAP vector for the single row
+        if isinstance(shap_values, list):
+            sv_1d = shap_values[class_idx][0]      # (n_features,)
+        else:
+            sv_1d = shap_values[0, :, class_idx]   # (n_features,)
+
         contrib = pd.DataFrame({
             "Feature": model_feature_names,
-            "SHAP_Contribution": sv
+            "SHAP_Contribution": sv_1d
         })
         contrib["Abs"] = contrib["SHAP_Contribution"].abs()
-        contrib = contrib.sort_values("Abs", ascending=False).drop(columns=["Abs"]).head(15)
+        contrib = (
+            contrib.sort_values("Abs", ascending=False)
+                  .drop(columns=["Abs"])
+                  .head(15)
+        )
 
         st.dataframe(contrib, use_container_width=True, hide_index=True)
 
@@ -500,12 +517,6 @@ with tabs[1]:
         st.error(f"SHAP explanation failed: {e}")
 
     st.markdown("</div>", unsafe_allow_html=True)
-
-st.write("pred_enc:", pred_enc)
-st.write("model classes:", getattr(model.named_steps["model"], "classes_", None))
-
-sv = explainer(pre.transform(X_new))
-st.write("sv.values shape:", getattr(sv.values, "shape", None))
 
 
 # =========================================================
@@ -529,13 +540,18 @@ with tabs[2]:
 
     st.write("### Important note")
     st.warning(
-        "This is a demo/portfolio app. In production, you would add monitoring, drift checks, "
+        "This is a demo/portfolio app by Md Toahir Hussain. In production, you would add monitoring, drift checks, "
         "logging, access control, and stronger validation for input ranges."
     )
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-
+with tabs[3]:
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("About Me")
+    st.write(
+        "I am Md Toahir Hussain"
+    )
 # ----------------------------
 # Footer
 # ----------------------------
