@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-# Optional: SHAP (only used in Explain tab)
 try:
     import shap
     SHAP_AVAILABLE = True
@@ -292,7 +291,7 @@ st.markdown(
 
 st.write("")
 
-tabs = st.tabs(["🔮 Predict", "📊 Explain (SHAP)", "📄 About / How to Use"])
+tabs = st.tabs(["🔮 Predict", "📊 Explain (SHAP)", "📄 About / How to Use", "About Dataset"])
 
 
 def _pretty_feature_name(raw_name: str) -> str:
