@@ -436,6 +436,18 @@ with tabs[0]:
 # TAB 2: Explain (SHAP)
 # =========================================================
 with tabs[1]:
+    st.info("""
+    ### 🧠 How to read this explanation
+    
+    This section explains *why* the model made this prediction.
+    
+    Each feature gets a **SHAP contribution score**:
+    • Positive value → pushes the decision **toward** this result  
+    • Negative value → pushes the decision **away** from this result  
+    • Larger absolute value → stronger influence  
+    
+    This is a **local explanation** for this specific customer, not a global feature importance ranking.
+    """)
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.subheader("📊 Explain prediction (SHAP)")
 
