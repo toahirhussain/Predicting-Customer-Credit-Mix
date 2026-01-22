@@ -551,7 +551,7 @@ with tabs[1]:
         }.get(pred_label_clean, "")
     
     def bullets(items):
-            return "\n".join([f"- {x}" for x in items]) if items else "- (No strong drivers found)"
+        return "\n".join([f"- {x}" for x in items]) if items else "- (No strong drivers found)"
     
         text = f"""### 📝 Plain English Summary
         
@@ -566,8 +566,8 @@ with tabs[1]:
     
         return text
     
-    except Exception as e:
-        st.error(f"SHAP explanation failed: {e}")
+        except Exception as e:
+            st.error(f"SHAP explanation failed: {e}")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
