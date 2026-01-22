@@ -21,7 +21,7 @@ except Exception:
 st.set_page_config(
     page_title="Credit Mix Predictor",
     page_icon="💳",
-    layout="centered",
+    layout="wide",
 )
 
 st.markdown(
