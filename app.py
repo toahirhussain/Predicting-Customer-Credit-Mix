@@ -246,11 +246,11 @@ with left:
                     )
                 else:
                     numeric_inputs[col] = st.number_input(
-                        label=col,
+                        label=label,
                         min_value=0.0,
                         value=float(defaults[col]),
                         step=0.1,
-                        format="%.2f",
+                        format="%.f",
                     )
 
 
