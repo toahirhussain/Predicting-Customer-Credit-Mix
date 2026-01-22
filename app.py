@@ -295,7 +295,7 @@ st.write("")
 tabs = st.tabs(["🔮 Predict", "📊 Explain (SHAP)", "📄 About / How to Use"])
 
 
- def _pretty_feature_name(raw_name: str) -> str:
+def _pretty_feature_name(raw_name: str) -> str:
             # If you already have "cat__" / "num__" prefixes, clean them
             name = str(raw_name)
             name = name.replace("num__", "").replace("cat__", "")
