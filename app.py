@@ -564,10 +564,10 @@ with tabs[1]:
         However, the prediction was weakened by:
         {bullets(neg_feats)}
         """
-            if advice:
-                text += f"\n**Suggested action:** {advice}\n"
+        if advice:
+            text += f"\n**Suggested action:** {advice}\n"
     
-            return text
+        return text
 
     st.markdown("</div>", unsafe_allow_html=True)
 
