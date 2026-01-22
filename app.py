@@ -518,6 +518,9 @@ with tabs[1]:
         )
 
         st.dataframe(contrib, use_container_width=True, hide_index=True)
+        
+    except Exception as e:
+        st.error(f"SHAP explanation failed: {e}")
 
     def _pretty_feature_name(raw_name: str) -> str:
         # If you already have "cat__" / "num__" prefixes, clean them
@@ -565,9 +568,6 @@ with tabs[1]:
                 text += f"\n**Suggested action:** {advice}\n"
     
         return text
-    
-        except Exception as e:
-            st.error(f"SHAP explanation failed: {e}")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
