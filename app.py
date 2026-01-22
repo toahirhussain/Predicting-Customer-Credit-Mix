@@ -175,6 +175,10 @@ top15 = schema.get("top15", [])
 top_num_cols = schema.get("top_num_cols", [])
 top_cat_cols = schema.get("top_cat_cols", [])
 
+st.write("Unmapped numeric:", [c for c in top_num_cols if c not in DISPLAY_NAMES])
+st.write("Unmapped categorical:", [c for c in top_cat_cols if c not in DISPLAY_NAMES])
+
+
 # Reverse map (optional; not required)
 inv_label_map = {v: k for k, v in label_map.items()}
 
