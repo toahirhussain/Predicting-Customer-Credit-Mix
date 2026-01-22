@@ -673,53 +673,6 @@ with tabs[3]:
 
     st.markdown("---")
 
-    # ---------- Optional dataset preview ----------
-    st.write("### Data preview (sample)")
-    st.caption(
-        "For portfolio safety, it’s best to include only a small anonymized sample (10–200 rows) instead of the full dataset."
-    )
-
-    if os.path.exists(DATASET_SAMPLE_PATH):
-        try:
-            df_sample = pd.read_csv(DATASET_SAMPLE_PATH)
-
-            # If target col doesn’t exist in the sample, that's okay
-            existing_cols = [c for c in preview_cols_preferred if c in df_sample.columns]
-            if len(existing_cols) < 5:
-                # fallback: use top15 + target if available
-                fallback_cols = [c for c in top15 if c in df_sample.columns]
-                if TARGET_COL in df_sample.columns and TARGET_COL not in fallback_cols:
-                    fallback_cols.append(TARGET_COL)
-                existing_cols = fallback_cols[:10]
-
-            st.dataframe(df_sample[existing_cols].head(PREVIEW_ROWS), use_container_width=True, hide_index=True)
-
-            with st.expander("Quick dataset health checks"):
-                c1, c2, c3 = st.columns(3)
-                with c1:
-                    st.metric("Rows (sample)", len(df_sample))
-                with c2:
-                    st.metric("Columns", df_sample.shape[1])
-                with c3:
-                    st.metric("Missing cells", int(df_sample.isna().sum().sum()))
-
-                st.write("**Missing values by column (top 12)**")
-                miss = df_sample.isna().mean().sort_values(ascending=False).head(12)
-                miss_df = pd.DataFrame({"Column": miss.index, "Missing %": (miss.values * 100).round(2)})
-                st.dataframe(miss_df, use_container_width=True, hide_index=True)
-
-        except Exception as e:
-            st.warning(f"Could not read sample dataset from `{DATASET_SAMPLE_PATH}`. Error: {e}")
-            st.info("Tip: Add a small sample file at `data/sample.csv` (anonymized).")
-    else:
-        st.info(
-            f"No sample dataset found at `{DATASET_SAMPLE_PATH}`.\n\n"
-            "✅ Recommended: add a small anonymized sample CSV (10–200 rows) so recruiters can preview the data.\n"
-            "If you don’t want to include data, this tab still explains the feature groups and model inputs."
-        )
-
-    st.markdown("---")
-
     # ---------- Practical notes (strong portfolio vibe) ----------
     st.write("### Notes on data handling (what you did right)")
     st.write(
