@@ -200,15 +200,38 @@ with left:
         numeric_inputs = {}
 
         # Spread numeric inputs into two columns
+        # Decide which numeric columns should be integers vs floats
+        INT_COLS = {
+            "Num_of_Delayed_Payment",
+            "Num_Bank_Accounts",
+            "Delay_from_due_date",
+            "Credit_History_Age",
+            "Num_of_Loan",
+            "Num_Credit_Card",
+            "Age",
+            "Num_Credit_Inquiries",
+        }
+        
         for i, col in enumerate(top_num_cols):
             target_col = num_cols_1 if i % 2 == 0 else num_cols_2
             with target_col:
-                numeric_inputs[col] = st.number_input(
-                    label=col,
-                    value=float(defaults[col]),
-                    step=1.0,
-                    format="%.4f",
-                )
+                if col in INT_COLS:
+                    numeric_inputs[col] = st.number_input(
+                        label=col,
+                        min_value=0,
+                        value=int(defaults[col]),
+                        step=1,
+                        format="%d",
+                    )
+                else:
+                    numeric_inputs[col] = st.number_input(
+                        label=col,
+                        min_value=0.0,
+                        value=float(defaults[col]),
+                        step=0.1,
+                        format="%.2f",
+                    )
+
 
         st.write("")
         st.markdown("### Categorical fields")
