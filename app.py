@@ -546,12 +546,6 @@ with tabs[2]:
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-with tabs[3]:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("About Me")
-    st.write(
-        "I am Md Toahir Hussain"
-    )
 # ----------------------------
 # Footer
 # ----------------------------
