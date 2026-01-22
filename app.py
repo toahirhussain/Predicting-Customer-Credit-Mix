@@ -329,18 +329,18 @@ def build_shap_summary(contrib_df: pd.DataFrame, pred_label: str, top_k_pos=3, t
     def bullets(items):
         return "\n".join([f"- {x}" for x in items]) if items else "- (No strong drivers found)"
             
-        text = f"""### 📝 Plain English Summary
+    text = f"""### 📝 Plain English Summary
                 
-        The model predicted **{pred_label_clean}** mainly because:
-        {bullets(pos_feats)}
+The model predicted **{pred_label_clean}** mainly because:
+{bullets(pos_feats)}
                 
-        However, the prediction was weakened by:
-        {bullets(neg_feats)}
-        """
-        if advice:
-            text += f"\n**Suggested action:** {advice}\n"
+However, the prediction was weakened by:
+{bullets(neg_feats)}
+"""
+    if advice:
+        text += f"\n**Suggested action:** {advice}\n"
             
-        return text
+    return text
 
 # =========================================================
 # TAB 1: Predict
