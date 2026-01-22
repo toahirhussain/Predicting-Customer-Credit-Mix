@@ -6,6 +6,23 @@ import joblib
 import pandas as pd
 import streamlit as st
 
+DISPLAY_NAMES = {
+    "Interest_Rate": "Interest Rate (%)",
+    "Outstanding_Debt": "Outstanding Debt",
+    "Num_of_Delayed_Payment": "Number of Delayed Payments",
+    "Num_Bank_Accounts": "Number of Bank Accounts",
+    "Delay_from_due_date": "Delay from Due Date (days)",
+    "Changed_Credit_Limit": "Change in Credit Limit",
+    "Credit_History_Age": "Credit History Age (years)",
+    "Num_of_Loan": "Number of Loans",
+    "Num_Credit_Card": "Number of Credit Cards",
+    "Age": "Age",
+    "Total_EMI_per_month": "Total EMI per Month",
+    "Num_Credit_Inquiries": "Number of Credit Inquiries",
+    "Annual_Income": "Annual Income"
+}
+
+
 # ----------------------------
 # Page + styling
 # ----------------------------
@@ -216,8 +233,9 @@ with left:
             target_col = num_cols_1 if i % 2 == 0 else num_cols_2
             with target_col:
                 if col in INT_COLS:
+                    label = DISPLAY_NAMES.get(col, col)
                     numeric_inputs[col] = st.number_input(
-                        label=col,
+                        label=label,
                         min_value=0,
                         value=int(defaults[col]),
                         step=1,
