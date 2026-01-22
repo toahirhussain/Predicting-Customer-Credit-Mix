@@ -420,6 +420,34 @@ with tabs[0]:
         st.markdown("</div>", unsafe_allow_html=True)
 
     with right:
+            st.write("")
+            st.markdown("### Categorical fields")
+            cat_cols_1, cat_cols_2 = st.columns(2, gap="medium")
+            categorical_inputs = {}
+
+            for i, col in enumerate(top_cat_cols):
+                target_col = cat_cols_1 if i % 2 == 0 else cat_cols_2
+                ui_label = DISPLAY_NAMES.get(col, col)
+
+                with target_col:
+                    if col in CATEGORICAL_DROPDOWNS:
+                        options = CATEGORICAL_DROPDOWNS[col]
+                        categorical_inputs[col] = st.selectbox(
+                            label=ui_label,
+                            options=options,
+                            index=0,
+                        )
+                    else:
+                        categorical_inputs[col] = st.text_input(
+                            label=ui_label,
+                            value=str(defaults[col]),
+                            placeholder="Type a value…",
+                        )
+
+            st.write("")
+            submitted = st.form_submit_button("🔮 Predict Credit Mix", use_container_width=True)
+
+        st.markdown("</div>", unsafe_allow_html=True)
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.subheader("📈 Prediction")
 
