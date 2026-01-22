@@ -22,6 +22,16 @@ DISPLAY_NAMES = {
     "Annual_Income": "Annual Income"
 }
 
+DISPLAY_NAMES.update({
+    "Outstanding_Debt": "Outstanding Debt",
+    "Changed_Credit_Limit": "Change in Credit Limit",
+    "Total_EMI_per_month": "Total EMI per Month",
+    "Annual_Income": "Annual Income",
+    "Payment_of_Min_Amount": "Payment of Minimum Amount",
+    "Occupation": "Occupation",
+    "Interest_Rate": "Interest Rate (%)",  # optional: nicer display
+})
+
 
 # ----------------------------
 # Page + styling
@@ -175,9 +185,6 @@ top15 = schema.get("top15", [])
 top_num_cols = schema.get("top_num_cols", [])
 top_cat_cols = schema.get("top_cat_cols", [])
 
-st.write("Unmapped numeric:", [c for c in top_num_cols if c not in DISPLAY_NAMES])
-st.write("Unmapped categorical:", [c for c in top_cat_cols if c not in DISPLAY_NAMES])
-
 
 # Reverse map (optional; not required)
 inv_label_map = {v: k for k, v in label_map.items()}
@@ -263,8 +270,9 @@ with left:
         for i, col in enumerate(top_cat_cols):
             target_col = cat_cols_1 if i % 2 == 0 else cat_cols_2
             with target_col:
+                label = DISPLAY_NAMES.get(col, col)
                 categorical_inputs[col] = st.text_input(
-                    label=col,
+                    label=label,
                     value=str(defaults[col]),
                     placeholder="Type a value…",
                 )
