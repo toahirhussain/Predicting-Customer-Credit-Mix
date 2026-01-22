@@ -501,6 +501,12 @@ with tabs[1]:
 
     st.markdown("</div>", unsafe_allow_html=True)
 
+st.write("pred_enc:", pred_enc)
+st.write("model classes:", getattr(model.named_steps["model"], "classes_", None))
+
+sv = explainer(pre.transform(X_new))
+st.write("sv.values shape:", getattr(sv.values, "shape", None))
+
 
 # =========================================================
 # TAB 3: About / How to Use
