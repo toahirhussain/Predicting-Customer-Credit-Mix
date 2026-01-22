@@ -250,7 +250,7 @@ with left:
                         min_value=0.0,
                         value=float(defaults[col]),
                         step=0.1,
-                        format="%.f",
+                        format="%.1f",
                     )
 
 
