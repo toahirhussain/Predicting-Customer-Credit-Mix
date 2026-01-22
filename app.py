@@ -442,6 +442,7 @@ with tabs[1]:
     This section explains *why* the model made this prediction.
     
     Each feature gets a **SHAP contribution score**:
+    
     • Positive value → pushes the decision **toward** this result  
     • Negative value → pushes the decision **away** from this result  
     • Larger absolute value → stronger influence  
@@ -517,13 +518,6 @@ with tabs[1]:
         )
 
         st.dataframe(contrib, use_container_width=True, hide_index=True)
-
-        st.write("")
-        st.caption("Interpretation")
-        st.write(
-            "Positive SHAP values push the prediction toward this class; negative values push away. "
-            "This is a local explanation for the current input, not a global feature ranking."
-        )
 
     except Exception as e:
         st.error(f"SHAP explanation failed: {e}")
