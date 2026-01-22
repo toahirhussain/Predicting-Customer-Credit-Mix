@@ -567,7 +567,7 @@ with tabs[1]:
             if advice:
                 text += f"\n**Suggested action:** {advice}\n"
     
-        return text
+            return text
 
     st.markdown("</div>", unsafe_allow_html=True)
 
